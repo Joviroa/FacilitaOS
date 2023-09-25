@@ -1,14 +1,50 @@
-# Compiled class file
+# Arquivos e diretórios específicos para projetos Java
+/target/
 *.class
+*.jar
+*.war
+*.ear
 
-# Log file
+# Logs
 *.log
 
-# BlueJ files
-*.ctxt
+# Diretório de saída do WildFly
+/standalone/deployments/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Diretório do Eclipse
+.classpath
+.project
+.settings/
+
+# Diretório do IntelliJ IDEA
+.idea/
+
+# Diretório do NetBeans
+nb-configuration.xml
+
+# Arquivos de configuração específicos do WildFly
+standalone/configuration/standalone.xml
+standalone/configuration/standalone-full.xml
+
+# Dependências Maven
+/.m2/
+
+# Arquivo de configuração do Eclipse
+.settings/org.eclipse.wst.common.component
+
+# Arquivo de configuração do NetBeans
+nbactions.xml
+
+# Arquivo de configuração do IntelliJ IDEA
+*.iml
+*.iws
+*.ipr
+
+# Diretório de saída do Maven
+/target/
+
+# Diretório de saída do Gradle
+/build/
 
 # Package Files #
 *.jar
@@ -22,3 +58,9 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
