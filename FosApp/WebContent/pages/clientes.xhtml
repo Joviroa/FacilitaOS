@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/template/template.xhtml">
+	<ui:define name="body">
+	
+		<h:form id="formClientes" class="form-horizontal" role="form" prependId="false">
+			<div class="card">
+				<pf:dataTable var="cliente" value="#{clienteController.listaClientes}">
+					
+					<f:facet name="header">
+						<div class="row">
+							<div class="col-md-9">
+							 	<h3>Clientes</h3>
+							</div>
+							<div class="col-md-3">
+								<pf:commandButton icon="pi pi-plus" 
+									value="Adicionar"
+									update="formModal"
+									styleClass="rounded-button ui-button-success" 
+									oncomplete="$('#modalCliente').modal('show');"
+									action="#{clienteController.redefinirClienteSelecionado()}"/>
+							</div>
+						</div>
+			        </f:facet>
+			        
+					<pf:column headerText="Nome">
+						<h:outputText value="#{cliente.nome}" />
+					</pf:column>
+
+					<pf:column headerText="Email">
+						<h:outputText value="#{cliente.email}" />
+					</pf:column>
+
+					<pf:column headerText="Telefone">
+						<h:outputText value="#{cliente.telefone}" />
+					</pf:column>
+					
+					<pf:column headerText="Acoes">
+						<pf:commandButton icon="pi pi-pencil" styleClass="rounded-button ui-button-warning"
+							 action="#{clienteController.carregaClienteSelecioado(cliente)}"
+							 oncomplete="$('#modalCliente').modal('show');"
+							 update="formModal" />
+						<pf:commandButton id="btnExluirCliente" icon="pi pi-trash" styleClass="rounded-button ui-button-danger">
+							<pf:ajax listener="#{clienteController.excluirCliente(cliente)}" update="formClientes formModal"/> 
+						</pf:commandButton>
+					</pf:column>
+					
+					<f:facet name="footer">
+			            <span class="font-bold">São no total #{fn:length(clienteController.listaClientes)} clientes.</span>
+			        </f:facet>
+					
+				</pf:dataTable>
+			</div>
+		</h:form>
+		<h:form id="formModal" class="form-horizontal" role="form" prependId="false">
+			
+			<!-- Inicio - Modal Clientes -->
+			<div class="modal fade" jsf:id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="modalCliente" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel"> #{clienteController.ehEdicao ? 'Editar' : 'Criar'} Cliente</h4>
+							<button type="button" class="close" onclick="$('#modalCliente').modal('hide');" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+						</div>
+						<div class="card-body">
+							<div class="card-text">
+								<div class="form-group" style="margin: 0 1em 0 1em">
+									<div class="row">
+										<div class="col">
+											<strong>Nome Cliente*:</strong> <input type="text"
+												class="form-control"
+												onkeypress="return somenteLetras(event);"
+												placeholder="Nome do cliente" maxlength="80"
+												jsf:value="#{clienteController.clienteSelecionado.nome}" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<strong>Email*:</strong> <input type="text"
+												class="form-control"
+												onkeypress="return somenteNumero(event);"
+												placeholder="Ex: fulano@email.com"
+												jsf:value="#{clienteController.clienteSelecionado.email}" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<strong>Telefone:</strong> <input type="text"
+												class="form-control" placeholder="Ex: 61999999999"
+												jsf:value="#{clienteController.clienteSelecionado.telefone}" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<strong>Cep:</strong> <input type="text"
+												class="form-control" placeholder="Cep Válido"
+												jsf:value="#{clienteController.clienteSelecionado.cep}" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="pull-right">
+								<h:commandButton id="fecharModal" styleClass="btn btn-secondary" action="#{clienteController.fecharModal()}" 
+								value="Fechar" onclick="$('#modalCliente').modal('hide');">
+								<f:ajax event="click" update="mensagens-sistema formClientes formModal" listener="#{clienteController.fecharModal()}"/>
+								</h:commandButton> 
+							</div>
+							<div class="pull-right">
+								<h:commandButton id="salvarModal" action="#{clienteController.salvarCliente()}"
+									styleClass="btn btn-success" value="Salvar Cliente" 
+									onclick="$('#modalCliente').modal('hide');PF('statusDialog').show();" oncomplete="PF('statusDialog').hide())">
+									<f:ajax event="click" render="formClientes" update="mensagens-sistema formClientes formModal" listener="#{clienteController.salvarCliente()}" execute="formModal"/> 
+								</h:commandButton>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Fim - Modal Clientes -->
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+	

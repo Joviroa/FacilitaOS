@@ -1,0 +1,24 @@
+<jboss-deployment-structure>
+	<deployment>
+		<!-- Dependências -->
+		<dependencies>
+          <module name="javax.ejb.api"/>
+          <module name="javax.persistence.api"/>
+          
+		</dependencies>
+	 </deployment>
+    <sub-deployment name="FosEJB.jar">
+        <dependencies>
+            <!-- Dependências específicas do EJB -->
+            <module name="org.hibernate"/>
+            <module name="org.jboss.logging"/>
+            <module name="net.sf.jasperreports"/>
+        </dependencies>
+    </sub-deployment>
+	<sub-deployment name="FosApp.war">
+		<dependencies>
+			<!-- Dependências específicas do WAR -->
+	   		<module name="org.primefaces" slot="main" export="true"/>
+    	</dependencies>
+	</sub-deployment>
+</jboss-deployment-structure>

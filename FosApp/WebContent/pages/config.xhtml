@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/template/template.xhtml">
+	<ui:define name="body">
+	
+		<h:form id="formConfig" class="form-horizontal" role="form" prependId="false">
+			<div class="card-body">
+				<div class="card-text">
+					<h2>Dados da Empresa</h2>
+					<div class="form-group" style="margin: 0 1em 0 1em">
+						<div class="row">
+							<div class="col">
+								<strong>Nome*:</strong> <input type="text"
+									class="form-control"
+									onkeypress="return somenteLetras(event);"
+									placeholder="Nome da empresa" maxlength="80"
+									jsf:value="#{empresaController.empresa.nome}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<strong>CPNJ*:</strong> <input type="text"
+									class="form-control"
+									onkeypress="return somenteNumero(event);"
+									placeholder="Ex: 999 999 999 999 99" maxlength="14"
+									jsf:value="#{empresaController.empresa.cnpj}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<strong>Email*:</strong> <input type="text"
+									class="form-control" placeholder="Ex: fulano@email.com"
+									jsf:value="#{empresaController.empresa.email}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<strong>Telefone*:</strong> <input type="text"
+									class="form-control" placeholder="Ex: 61999999999"
+									jsf:value="#{empresaController.empresa.telefone}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<strong>Endereço:</strong> <input type="text"
+									class="form-control" placeholder="Ex: Q10 C5, Brasilia, DF, 44554545"
+									jsf:value="#{empresaController.empresa.endereco}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<strong>Descrição:</strong> <input type="text"
+									class="form-control" placeholder="Breve descrição da empresa"
+									jsf:value="#{empresaController.empresa.descricao}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<strong>Unipessoal? (1 sócio)</strong> 
+								<pf:selectOneRadio id="inputRadio" value="#{empresaController.empresa.ehUnipessoal}" layout="lineDirection">
+						            <f:selectItem itemLabel="Sim" itemValue="true"/>
+						            <f:selectItem itemLabel="Não" itemValue="false"/>
+						        </pf:selectOneRadio>
+							</div>
+						</div>
+					<!-- 	<div class="row">
+							<div class="col">
+								<h:form enctype="multipart/form-data">
+									<strong>Logo:</strong>
+									<div class="row">
+										<div class="col">
+							        		<pf:fileUpload value="#{empresaController.empresa.logo}" mode="simple" skinSimple="true"/>
+										</div>
+									</div>
+							    </h:form>
+							</div>
+						</div> -->
+						<br/>
+						<div class="row botoesNavegacao">
+							<div class="col-md-2">
+								<p> </p>
+							</div>
+							<div class="col-md-2">
+								<pf:commandButton value="Salvar" action="#{empresaController.salvarEmpresa()}" styleClass="ui-button-raised ui-button-success"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

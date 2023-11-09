@@ -1,0 +1,72 @@
+	body{
+		background: rgb(128, 128, 192);
+	}
+	
+	.template{
+		border: 1px solid gray;
+		border-radius: 10px;
+		margin-top: 50px;
+		background: rgb(192, 192, 192);
+	}	
+	.template .Tbody{
+		background-color: white;
+	    border: 1px solid gray;
+	    border-radius: 10px;
+	}
+	.template .Tfooter{
+		background: rgb(128, 128, 128);
+		border: 1px solid gray;
+		border-radius: 10px;
+		text-align:center;
+		padding: 10px;
+	}
+	.template .Tmenu{
+		padding-bottom: 20px !important;
+	}
+	.template .Tmenu .row{
+		margin-right: 0px !important;
+		margin-left: 0px !important;
+	}
+	
+	.form-control { background: #fff; border:1px solid #9a9a9a; }
+	
+	.divFOS { 
+		background: #fff;
+		border:1px solid #9a9a9a;
+	}
+	
+	.botaoMenu{
+		margin:3px auto;
+		background: #5e288fc7 !important;
+		border: 1px solid #0a7242 !important;
+	}
+	.opcaoMenu{
+		margin:4px auto;
+	}
+	
+	.botoesNavegacao{
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.ui-card{
+		margin: 10px;
+		display: inline-block;
+	}
+	
+	#logoMenu{
+	    width: 180px;
+    	height: 80px;
+    	margin: 15px auto;
+	}
+	
+	.ui-datepicker {
+	  z-index: 9999 !important;
+	}
+	
+	.titulo{
+		text-align:center;
+	}
+	.cardTemplate{
+		padding: 5px;
+	}

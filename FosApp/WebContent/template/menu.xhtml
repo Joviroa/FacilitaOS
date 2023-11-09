@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pf="http://primefaces.org/ui">
+	<h:form id="formMenuTemplate" role="form" prependId="false">
+			<div class="row">
+				<pf:graphicImage id="logoMenu" name="logo.png" library="img"/>
+			</div>
+			<div class="row opcaoMenu">
+				<pf:commandButton value="Home" icon="pi pi-home" action="#{baseController.redirecionarHome()}" class="botaoMenu"/>
+			</div>
+			
+			<div class="row opcaoMenu">
+				<pf:commandButton value="Ordens Serviço" icon="pi pi-briefcase" action="#{baseController.redirecionarOS()}" class="botaoMenu"/>
+			</div>
+			
+			<div class="row opcaoMenu">
+				<pf:commandButton value="Serviços" icon="pi pi-briefcase" action="#{baseController.redirecionarServicos()}" class="botaoMenu"/>
+			</div>
+			
+			<div class="row opcaoMenu">
+				<pf:commandButton value="Clientes" icon="pi pi-users" action="#{baseController.redirecionarClientes}" class="botaoMenu"/>
+			</div>
+			
+			<div class="row opcaoMenu">
+				<pf:commandButton value="Configurações" icon="pi pi-cog" action="#{baseController.redirecionarConfiguracoes()}" class="botaoMenu"/>
+			</div>
+	</h:form>
+</ui:composition>

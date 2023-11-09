@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:pf="http://primefaces.org/ui">
+
+<h:head>
+
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Sistema Facilita OS"/>
+    <meta name="author" content="@joao.samp"/>
+
+    <title>Facilita OS</title>
+	
+    <!-- Bootstrap    -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"/>
+   	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"/>
+    <!--  Fontes e Icones     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,300" rel="stylesheet" type="text/css"/>
+	<!-- CSS e JS personalizados    -->    
+    <h:outputScript name="js/script.js" />
+    <h:outputStylesheet name="css/style-1.css" media="screen"/>
+    
+    
+</h:head>
+
+<h:body>
+	<div id="pagina" class="container template">
+		<div class="row" style="margin: 10px;">
+			<div class="col-md-3 Tmenu">
+				<ui:include src="/template/menu.xhtml"/>
+			</div>
+			<div class="col-md-9 Tbody">
+    			<ui:insert name="body"/>
+			</div>
+		</div>
+		<div class="row Tfooter fixed-bottom">
+			<ui:include src="/template/footer.xhtml"/>
+		</div>
+	</div>
+    <h:panelGroup layout="block" id="mensagens-sistema" class="message">
+		<h:messages warnClass="WARN" infoClass="INFO" fatalClass="ERROR" errorClass="ERROR"/>
+	</h:panelGroup>
+	<ui:include src="/template/carregando.xhtml" />	
+</h:body>
+
+</html>
