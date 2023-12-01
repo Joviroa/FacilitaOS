@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/template/template.xhtml">
+	<ui:define name="body">
+	
+		<h:form id="formServicos" class="form-horizontal" role="form" prependId="false">
+			<div class="card">
+				<pf:dataTable var="servico" value="#{servicoController.listaServicos}">
+					
+					<f:facet name="header">
+						<div class="row">
+							<div class="col-md-9">
+							 	<h3>Serviços</h3>
+							</div>
+							<div class="col-md-3">
+								<pf:commandButton icon="pi pi-plus" 
+									value="Adicionar"
+									update="formModal"
+									styleClass="rounded-button ui-button-success" 
+									oncomplete="$('#modalServico').modal('show');"
+									action="#{servicoController.redefinirServicoSelecionado()}"/>
+							</div>
+						</div>
+			        </f:facet>
+			        
+					<pf:column headerText="Nome">
+						<h:outputText value="#{servico.nome}" />
+					</pf:column>
+					
+					<pf:column headerText="Valor">
+						<h:outputText value="#{servico.valor}" converter="moedaConverter" />
+					</pf:column>
+					
+					<!-- <pf:column headerText="Acumulo para Cupom">
+						<h:outputText value="#{servico.valorCupomAcumulado}" />
+					</pf:column -->
+					
+					<pf:column headerText="Acoes">
+						<pf:commandButton icon="pi pi-pencil" styleClass="rounded-button ui-button-warning"
+							 action="#{servicoController.carregaServicoSelecioado(servico)}"
+							 oncomplete="$('#modalServico').modal('show');"
+							 update="formModal" />
+						<pf:commandButton id="btnExluirServico" icon="pi pi-trash" styleClass="rounded-button ui-button-danger">
+							<pf:ajax listener="#{servicoController.removerServico(servico)}" update="formServicos formModal"/> 
+						</pf:commandButton>
+					</pf:column>
+					
+					<f:facet name="footer">
+			            <span class="font-bold">São no total #{fn:length(servicoController.listaServicos)} servicos.</span>
+			        </f:facet>
+					
+				</pf:dataTable>
+			</div>
+		</h:form>
+		<h:form id="formModal" class="form-horizontal" role="form" prependId="false">
+			
+			<!-- Inicio - Modal Servicos -->
+			<div class="modal fade" jsf:id="modalServico" tabindex="-1" role="dialog" aria-labelledby="modalServico" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel"> #{servicoController.ehEdicao ? 'Editar' : 'Criar'} Serviço</h4>
+							<button type="button" class="close" onclick="$('#modalServico').modal('hide');" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+						</div>
+						<div class="card-body">
+							<div class="card-text">
+								<div class="form-group" style="margin: 0 1em 0 1em">
+									<div class="row">
+										<div class="col">
+											<strong>Nome Servico*:</strong> <input type="text"
+												class="form-control"
+												onkeypress="return somenteLetras(event);"
+												placeholder="Nome do servico" maxlength="50"
+												jsf:value="#{servicoController.servicoSelecionado.nome}" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<strong>Valor Serviço*:</strong> <input type="text"
+												class="form-control"
+												onkeypress="return somenteNumero(event);"
+												jsf:value="#{servicoController.servicoSelecionado.valor}" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="pull-right">
+								<h:commandButton id="fecharModal" styleClass="btn btn-secondary" action="#{servicoController.fecharModal()}" 
+								value="Fechar" onclick="$('#modalServico').modal('hide');">
+								<f:ajax event="click" update="mensagens-sistema formServicos formModal" listener="#{servicoController.fecharModal()}"/>
+								</h:commandButton> 
+							</div>
+							<div class="pull-right">
+								<!-- <pf:commandButton id="salvarModal" styleClass="btn btn-success">
+									<pf:ajax listener="#{servicoController.salvarServico()}" update="mensagens-sistema formServicos formModal"/> 
+								</pf:commandButton> -->
+								<h:commandButton id="salvarModal" action="#{servicoController.salvarServico()}"
+									styleClass="btn btn-success" value="Salvar Servico" 
+									onclick="$('#modalServico').modal('hide');PF('statusDialog').show();" oncomplete="PF('statusDialog').hide())">
+									<f:ajax event="click" render="formServicos" update="mensagens-sistema formServicos formModal" listener="#{servicoController.salvarServico()}" execute="formModal"/> 
+								</h:commandButton>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Fim - Modal Servicos -->
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+	

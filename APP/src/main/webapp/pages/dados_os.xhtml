@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/template/template.xhtml">
+	<ui:define name="body">
+		<style>
+		.ui-inputfield {
+			width: 100%;
+		}
+		</style>
+		<h:form id="formDadosOs" class="form-horizontal" role="form" prependId="false">
+			<h2> #{dadosOsController.modoEdicao ? 'Editar' : 'Criar'} Ordem de Serviço</h2>
+			<br/>
+			<div class="card-body">
+				<div class="card-text">
+					<div class="form-group" style="margin: 0 1em 0 1em">
+						<div class="row">
+							<div class="col" jsf:rendered="#{dadosOsController.modoEdicao}">
+								<h5>Número OS*:</h5> 
+								<input type="text"
+									class="form-control"
+									onkeypress="return somenteNumero(event);"
+									placeholder="Numero da OS" maxlength="50"
+									jsf:value="#{dadosOsController.ordemServico.numeroOS}"
+									jsf:disabled="true"
+									 />
+							</div>
+						</div>
+						<div class="row">
+							<h5>Cliente*:</h5>
+					        <pf:autoComplete id="inputCliente" value="#{dadosOsController.ordemServico.cliente}" completeMethod="#{dadosOsController.completeCliente}"
+					                        var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente}" converter="clienteConverter" placeholder="Nome do cliente">
+					            <f:facet name="inputcliente">
+					                <h:panelGrid columns="2" cellpadding="5">
+					 
+					                    <h:outputText value="Nome:" />
+					                    <h:outputText value="#{cliente.nome}" />
+					 
+					 					<h:outputText value="Telefone:" />
+					                    <h:outputText value="#{cliente.telefone}" />
+					 					
+					                    <h:outputText value="Email:" />
+					                    <h:outputText value="#{cliente.email}" />
+					                </h:panelGrid>
+					            </f:facet>
+					        </pf:autoComplete>
+						</div>
+						<div class="row">
+							<div class="col">
+						        <h5>Colaborador(Opcional):</h5> 
+						        <input type="text"
+										class="form-control" placeholder="Quem executou o serviço"
+										jsf:value="#{dadosOsController.ordemServico.colaborador}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<h5>Data Início OS*:</h5>
+								<pf:datePicker value="#{dadosOsController.ordemServico.dataInicio}" showButtonBar="true" locale="pt_BR"/>
+							</div>
+							<div class="col">
+								<h5>Data Fim OS(Opcional):</h5>
+								<pf:datePicker value="#{dadosOsController.ordemServico.dataFim}" showButtonBar="true" locale="pt_BR"/>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="width: 100%; padding:5px 0px 5px 26px;">
+						<div class="card-body">
+							<div class="card-text">
+								<div class="form-group">
+									<div class="card bg-light mb-12">
+									  	<div class="card-header">
+										  	<div class="row justify-content-between">
+												<div class="col-md-10">
+													<h5>Serviços Selecionados</h5>
+												</div>
+												<div class="col-md-2">
+													<h:commandButton id="abrirModal"
+														styleClass="btn btn-success" value="Adicionar" 
+														onclick="$('#modalSelecionarServicos').modal('show');">
+														<f:ajax actionListener="#{dadosOsController.inicializarDadosModal()}" />
+													</h:commandButton>
+												</div>
+											</div>
+									  	</div>
+									  	<div class="card-body">
+											<pf:dataTable id="listaServicosSelecionados" var="servico" value="#{dadosOsController.listaServicosSelecionados}" styleClass=" font-size: 12px !important;" scrollable="true"  scrollHeight="250">
+												<pf:column headerText="Nome">
+													<h:outputText value="#{servico.nome}"/>
+												</pf:column>
+												<pf:column headerText="Valor">
+													<h:outputText value="#{servico.valor}" converter="moedaConverter" />
+												</pf:column>
+												<pf:column headerText="Ações">
+													<pf:commandButton id="btnExluirServicoLista" icon="pi pi-trash" styleClass="rounded-button ui-button-danger">
+														<pf:ajax listener="#{dadosOsController.removerServicoListaSelecionados(servico)}" update="listaServicosSelecionados"/> 
+													</pf:commandButton>
+												</pf:column>
+											</pf:dataTable>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="margin: 0 1em 0 1em">
+						<h5>Descrição*:</h5>
+				        <pf:inputTextarea rows="5" cols="30" counter="displayCaracteres" maxlength="200" value="#{dadosOsController.ordemServico.descricao}"
+				                         counterTemplate="{0} caracteres restantes." autoResize="true"/>
+				        <small><h:outputText id="displayCaracteres" class="block" /></small>
+					</div>
+					<div class="row botoesNavegacao">
+						<div class="col-md-2">
+							<h:commandButton id="btnVoltar" styleClass="btn btn-secondary" action="#{dadosOsController.voltar()}" value="Voltar"/>
+						</div>
+						<div class="col-md-2 ">
+							<h:commandButton id="btnSalvarOS" styleClass="btn btn-success" value="Salvar OS" >
+								<f:ajax event="click" render="formDadosOs" update="mensagens-sistema formDadosOs formModal" listener="#{dadosOsController.salvarOrdemServico()}" execute="formDadosOs"/> 
+							</h:commandButton>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		
+		<h:form id="formModalDadosOs" class="form-horizontal" role="form" prependId="false">
+			
+			<!-- Inicio - Modal Serviços -->
+			<div class="modal fade" jsf:id="modalSelecionarServicos" tabindex="-1" role="dialog" aria-labelledby="modalSelecionarServicos" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="myModalLabel"> Serviços</h4>
+							<button type="button" class="close" onclick="$('#modalSelecionarServicos').modal('hide');" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+						</div>
+						<div class="card-body">
+							<div class="card-text">
+								<div class="form-group" style="margin: 0 1em 0 1em">
+								
+									<div class="card bg-light mb-12">
+									  <div class="card-header">Disponíveis</div>
+									  <div class="card-body">
+									    <pf:dataTable var="servico" value="#{dadosOsController.listaServico}" scrollable="true"  scrollHeight="250" styleClass=" font-size: 12px !important;">
+											<pf:column headerText="Nome">
+												<h:outputText value="#{servico.nome}"/>
+											</pf:column>
+											<pf:column headerText="Valor">
+												<h:outputText value="#{servico.valor}" converter="moedaConverter" />
+											</pf:column>
+											<pf:column headerText="Ações">
+												<h:commandButton action="#{dadosOsController.adicionarServicoListaSelecionados(servico)}" value="Adicionar" styleClass="btn btn-success"/>
+											</pf:column>
+										</pf:dataTable>
+									  </div>
+									</div>
+								<!-- 	<pf:divider/>
+									<div class="card bg-light mb-12">
+									  <div class="card-header">Selecionados</div>
+									  <div class="card-body">
+									    <pf:dataTable var="servico" value="#{dadosOsController.listaServicosSelecionados}" styleClass=" font-size: 12px !important;">
+											<pf:column headerText="Nome">
+												<h:outputText value="#{servico.nome}"/>
+											</pf:column>
+											<pf:column headerText="Valor">
+												<h:outputText value="#{servico.valor}" converter="moedaConverter" />
+											</pf:column>
+										</pf:dataTable>
+									  </div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="pull-right">
+								<h:commandButton id="fecharModal" styleClass="btn btn-secondary" action="#{dadosOsController.fecharModal()}" 
+								value="Fechar" onclick="$('#modalSelecionarServicos').modal('hide');">
+								<f:ajax event="click" update="mensagens-sistema formModal" listener="#{dadosOsController.fecharModal()}"/>
+								</h:commandButton> 
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Fim - Modal Serviços -->
+			
+		</h:form>
+		
+		
+	</ui:define>
+</ui:composition>
+	
